@@ -16,7 +16,7 @@ In the main.js (this file) set up the network and call the functions
 */
 
 var query = require('./query.js');
-//var invoke = require('./invoke.js');
+var invoke = require('./invoke.js');
 var admin = require('./enrollAdmin.js');
 var usr = require('./enrollUser.js');
 
@@ -36,6 +36,12 @@ var fabric_client = new Fabric_Client();
 //usr.newUser("user1");
 
 //query Blockchain
-var args = ['']
-query.queryBC("mycc","queryAllBlocks",args);
+var args1 = ['']
+query.queryBC("mycc","queryAllBlocks",args1);
 
+
+var args2 = ['BLOCK5','E','F','G','H']
+invoke.newInvoke("mycc","insertBlock",args2,"mychannel");
+
+
+query.queryBC("mycc","queryAllBlocks",args1);
