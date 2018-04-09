@@ -30,10 +30,10 @@ var os = require('os');
 var fabric_client = new Fabric_Client();
 
 //enroll Admin
-//admin.newAdmin("admin","adminpw");
+admin.newAdmin("admin","adminpw");
 
 //enroll User
-//usr.newUser("user1");
+usr.newUser("user1");
 
 //query Blockchain
 var args1 = ['']
