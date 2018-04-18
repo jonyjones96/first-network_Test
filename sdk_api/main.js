@@ -40,8 +40,8 @@ var args1 = ['']
 query.queryBC("mycc","queryAllBlocks",args1);
 
 
-var args2 = ['BLOCK5','E','F','G','H']
-invoke.newInvoke("mycc","insertBlock",args2,"mychannel");
+//var args2 = ['BLOCK5','E','F','G','H']
+//invoke.newInvoke("mycc","insertBlock",args2,"mychannel");
 
 
-query.queryBC("mycc","queryAllBlocks",args1);
+//query.queryBC("mycc","queryAllBlocks",args1);

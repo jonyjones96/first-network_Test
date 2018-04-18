@@ -1,0 +1,8 @@
+Example of network working:
+
+1) Run "./setUp.sh" script
+2) Run "node sdk_api/main.js" command
+3) Run "node sdk_api/app.js" command
+4) Run Request on postman:
+	Query : "http://localhost:3000/query/ccid=mycc&fcn=queryAllBlocks&args=none"
+	Invoke : "http://localhost:3000/invoke/ccid=mycc&fcn=insertBlock&chn=mychannel"

@@ -1,5 +1,6 @@
 var faker = require("faker");
 var queryblock = require('../query.js');
+var invoke = require('../invoke.js');
 //var admin = require('../enrollAdmin.js');
 var usr = require('../enrollUser.js');
 //var sleep = require('sleep');
@@ -46,7 +47,7 @@ var appRouter = function (app) {
 
  app.get("/query/:str", function(req, res){
    var query = req.params.str;
-   var array = query.split(",");
+   var array = query.split("&");
    
    var chainCodeID = array[0]; 
    var ccid = chainCodeID.split("=");
@@ -65,16 +66,63 @@ var appRouter = function (app) {
    usr.newUser("user1");
    //sleep.sleep(5)
    var args1 = ['']
-   queryblock.queryBC(ccid[1],fcn[1],args1);
-   //sleep.sleep(5)
+   var resp = queryblock.queryBC(ccid[1],fcn[1],args1);
+   
+	//sleep.sleep(5)
 
-   res.status(200).send("Success!");
+   res.status(200).send(resp);
 
- }
+ });
 
- 
 
-);
+ app.post("/invoke/:str", function(req, res){
+
+   var query = req.params.str;
+
+   //invoke.newInvoke("mycc","insertBlock",args2,"mychannel");
+   var array = query.split("&");
+   
+   var chainCodeID = array[0]; 
+   var ccid = chainCodeID.split("=");
+
+   var fcnName = array[1];
+   var fcn =  fcnName.split("=");
+
+   var channelName = array[2];
+   var channel = channelName.split("=");
+  
+   var totalArgs = array[3];
+   var argsArray = totalArgs.split("=");
+   var splitArgs = argsArray[1].split(",");
+	
+   var args = [splitArgs[0], splitArgs[1], splitArgs[2], splitArgs[3], splitArgs[4]]; 
+
+console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", TotalArgs = " + totalArgs);
+//	args = ['BLOCK4','A','B','C','D'];
+   invoke.newInvoke(ccid[1],fcn[1],args,channel[1]);
+
+   var output = "ccid= " +ccid[1] +" fcn= " +fcn[1]+ " channel= " + channel[1];
+   res.status(200).send("Success!"+ output);
+
+  });
+
+/* 
+          Template -- GET
+ app.get("/query/:str", function(req, res){
+    var str1 = req.params.str;
+    res.status(200).send(str1);
+ });
+
+           Template -- POST
+ app.post("/query/:str", function(req, res){
+    var str1 = req.params.str;
+    res.status(200).send(str1);
+ });
+
+
+*/
+
+
 }
 module.exports = appRouter;
 

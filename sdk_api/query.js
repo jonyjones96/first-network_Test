@@ -26,6 +26,8 @@ var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:'+store_path);
 var tx_id = null;
+var responce = [];
+var query_responses = [];
 
 var queryBC = function(chainCodeID,functionName,argsInput) {
 
@@ -70,6 +72,9 @@ var queryBC = function(chainCodeID,functionName,argsInput) {
 				console.error("error from query = ", query_responses[0]);
 			} else {
 				console.log("Response is ", query_responses[0].toString());
+				responce = query_responses[0].toString();
+				//responce.push("it worked");
+				console.log(" responce = ", responce);
 			}
 		} else {
 			console.log("No payloads were returned from query");
@@ -78,6 +83,8 @@ var queryBC = function(chainCodeID,functionName,argsInput) {
 		console.error('Failed to query successfully :: ' + err);
 	});
 
+
+	return responce; 
 }
 
 exports.queryBC = queryBC;
