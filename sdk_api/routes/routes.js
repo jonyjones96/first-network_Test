@@ -5,13 +5,18 @@ var invoke = require('../invoke.js');
 var usr = require('../enrollUser.js');
 //var sleep = require('sleep');
 
+
+
 var appRouter = function (app) {
 
-
+	app.set('view engine', 'ejs')
+	//app.use(express.static('public'));
 
   app.get("/", function (req, res) {
-    res.status(200).send({ message: 'Welcome to our restful API' });
-  });
+    //res.status(200).send({ message: 'Welcome to our restful API' });
+ 
+	res.render('index');
+ });
 
   app.get("/user", function (req, res) {
     var data = ({
@@ -106,6 +111,12 @@ console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", Total
 
   });
 
+
+  app.post("/", function(req, res){
+
+	res.status(200).send("Success!");
+  });
+
 /* 
           Template -- GET
  app.get("/query/:str", function(req, res){
@@ -122,7 +133,7 @@ console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", Total
 
 */
 
-
+ 
 }
 module.exports = appRouter;
 
