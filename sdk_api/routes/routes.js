@@ -4,51 +4,71 @@ var invoke = require('../invoke.js');
 //var admin = require('../enrollAdmin.js');
 var usr = require('../enrollUser.js');
 //var sleep = require('sleep');
-
+//WRite to files
+var fs = require('fs');
 
 
 var appRouter = function (app) {
 
-	app.set('view engine', 'ejs')
-	//app.use(express.static('public'));
-
-  app.get("/", function (req, res) {
-    //res.status(200).send({ message: 'Welcome to our restful API' });
- 
-	res.render('index');
- });
-
-  app.get("/user", function (req, res) {
-    var data = ({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email()
-    });
-    res.status(200).send(data);
+  app.set('view engine', 'ejs')
+  
+  //Send the user to the login Screen
+  app.get("/", function (req, res) { 
+	  res.render('login');
   });
 
- app.get("/users/:num", function (req, res) {
-   var users = [];
-   var num = req.params.num;
+  //Checks the users details and registers them
+  //as a user for the Node SDK
+  app.post("/signin", function(req, res){
+    var usr = req.body.username;
+    var psw = req.body.password;
 
-   if (isFinite(num) && num  > 0 ) {
-     for (i = 0; i <= num-1; i++) {
-       users.push({
-           firstName: faker.name.firstName(),
-           lastName: faker.name.lastName(),
-           username: faker.internet.userName(),
-           email: faker.internet.email()
-        });
-     }
+    //needs to check if they are a valid user
+    //checks a textfile - this will definately need to be changed in the future
+    //---insert here
+    fs.readFile('test.txt','utf8', (err, data) => {
+      if (err) throw err;
+      console.log(data);
+    });
+    var valid =true;
+    //Send them to the correct page
+    if(valid == true){
+      //---change this
+      var weatherText = "it worked!";
+      res.render('main', {weather: weatherText, error: null});
+      //---
+    }else{
+      res.render('login');
+    }
+  });
 
-     res.status(200).send(users);
-    
-   } else {
-     res.status(400).send({ message: 'invalid number supplied' });
-   }
+  //Sends a new user to the register page
+  app.get("/registerPage",function(req, res){
+    res.render('register');
+  });
 
- });
+  //Registers a user to the network and creates their details in a textfile
+  app.post("/registerUser",function(req, res){
+
+    var usr = req.body.username;
+    var psw = req.body.password;
+
+    var userDetails = usr + "," + psw + "\n";
+    //insert them into the text file
+    fs.appendFile('test.txt', userDetails, function (err) {
+      if (err) {
+        // append failed
+        console.log(err);
+      } 
+    })
+
+    //Send them to a new page
+    var weatherText = "it worked!";
+    res.render('main', {weather: weatherText, error: null});
+    //res.render('main');
+  });
+
+
 
  app.get("/query/:str", function(req, res){
    var query = req.params.str;
@@ -102,8 +122,8 @@ var appRouter = function (app) {
 	
    var args = [splitArgs[0], splitArgs[1], splitArgs[2], splitArgs[3], splitArgs[4]]; 
 
-console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", TotalArgs = " + totalArgs);
-//	args = ['BLOCK4','A','B','C','D'];
+  console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", TotalArgs = " + totalArgs);
+  //	args = ['BLOCK4','A','B','C','D'];
    invoke.newInvoke(ccid[1],fcn[1],args,channel[1]);
 
    var output = "ccid= " +ccid[1] +" fcn= " +fcn[1]+ " channel= " + channel[1];
@@ -112,10 +132,7 @@ console.log("splitArgs = " + splitArgs + ", argsArray = " + argsArray + ", Total
   });
 
 
-  app.post("/", function(req, res){
 
-	res.status(200).send("Success!");
-  });
 
 /* 
           Template -- GET

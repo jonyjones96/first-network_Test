@@ -8,6 +8,11 @@ body {
   margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
 }
+
+h2{
+  padding: 300px'
+  color: #4b545f;
+}
 .container {
   width: 600px;
   margin: 0 auto;
