@@ -74,7 +74,7 @@ var queryBC = function(chainCodeID,functionName,argsInput) {
 				console.log("Response is ", query_responses[0].toString());
 				responce = query_responses[0].toString();
 				//responce.push("it worked");
-				console.log(" responce = ", responce);
+				//console.log(" responce = ", responce);
 			}
 		} else {
 			console.log("No payloads were returned from query");
